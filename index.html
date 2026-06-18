@@ -31,6 +31,15 @@
             --shadow-md: 0 18px 36px -12px rgba(0, 0, 0, 0.12);
         }
 
+        /* Contenedor sticky que engloba top-bar y header */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
         .top-bar {
             background: var(--claro-red);
             color: white;
@@ -51,11 +60,8 @@
             align-items: center;
             flex-wrap: wrap;
             border-bottom: 2px solid var(--claro-red);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-            position: sticky;
-            top: 0;
-            z-index: 100;
             gap: 12px;
+            position: relative;
         }
         .logo {
             display: flex;
@@ -67,7 +73,6 @@
             height: 48px;
             width: auto;
         }
-        /* Camión animado */
         .shipping-animation {
             display: inline-flex;
             align-items: center;
@@ -91,7 +96,6 @@
             0% { transform: translateX(0px); }
             100% { transform: translateX(5px); }
         }
-        /* Ajuste responsive */
         @media (max-width: 640px) {
             .shipping-animation {
                 font-size: 0.65rem;
@@ -102,10 +106,12 @@
                 font-size: 0.9rem;
             }
         }
+
         .search-cart {
             display: flex;
             align-items: center;
             gap: 1rem;
+            margin-right: 70px; /* espacio para el carrito con margen */
         }
         .search-box {
             background: #f5f5f5;
@@ -122,6 +128,57 @@
             font-size: 0.8rem;
             width: 140px;
             outline: none;
+        }
+
+        /* Carrito con estilo de botón circular, separado del borde y con animación de pulsación */
+        .cart-icon-header {
+            position: absolute;
+            right: 16px; /* separado del borde */
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 1.4rem;
+            color: #1a1e2b;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            border: 2px solid rgba(227,24,55,0.2);
+            animation: pulse-cart 2s ease-in-out infinite;
+        }
+        .cart-icon-header:hover {
+            color: var(--claro-red);
+            transform: translateY(-50%) scale(1.08);
+            border-color: var(--claro-red);
+            animation: none; /* detener pulsación al hover */
+        }
+        @keyframes pulse-cart {
+            0% { transform: translateY(-50%) scale(1); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+            50% { transform: translateY(-50%) scale(1.08); box-shadow: 0 6px 20px rgba(227,24,55,0.25); border-color: var(--claro-red); }
+            100% { transform: translateY(-50%) scale(1); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+        }
+        .cart-icon-header .cart-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #1a2c3e;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: bold;
+            min-width: 20px;
+            height: 20px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5px;
+            border: 2px solid white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
 
         .hero {
@@ -161,7 +218,6 @@
             gap: 0.5rem;
         }
 
-        /* Product grid: 2 columnas en móvil y alturas uniformes por fila */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -178,7 +234,6 @@
             }
         }
 
-        /* Tarjetas con altura flexible pero alineación perfecta de precio y botón */
         .product-card {
             background: white;
             border-radius: 28px;
@@ -299,41 +354,6 @@
         .btn-add:hover {
             background: var(--claro-red-dark);
             transform: scale(1.01);
-        }
-
-        /* Carrito flotante */
-        .cart-floating {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: var(--claro-red);
-            width: 58px;
-            height: 58px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 8px 20px rgba(227,24,55,0.4);
-            z-index: 1100;
-            border: 2px solid white;
-        }
-        .cart-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #1a2c3e;
-            color: white;
-            font-size: 0.7rem;
-            font-weight: bold;
-            min-width: 20px;
-            height: 20px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 5px;
-            border: 2px solid white;
         }
 
         /* Drawer */
@@ -579,32 +599,101 @@
             font-weight: 500;
             font-size: 0.85rem;
         }
+
+        /* Botón flotante de WhatsApp a la derecha */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background-color: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            z-index: 1500;
+            text-decoration: none;
+            transition: 0.2s;
+            animation: pulse-whatsapp 2s infinite;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background-color: #128C7E;
+        }
+        @keyframes pulse-whatsapp {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
         @media (max-width: 640px) {
             .payment-methods { flex-direction: column; }
             .main-image { height: 140px; }
             .thumbnail { width: 36px; height: 36px; }
             .product-title { font-size: 0.9rem; }
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                font-size: 2.2rem;
+                bottom: 16px;
+                right: 16px;
+            }
+            .search-cart {
+                margin-right: 60px;
+            }
+            .search-box input {
+                width: 100px;
+            }
+            .cart-icon-header {
+                width: 42px;
+                height: 42px;
+                font-size: 1.2rem;
+                right: 12px;
+            }
+            .cart-icon-header .cart-badge {
+                min-width: 18px;
+                height: 18px;
+                font-size: 0.6rem;
+                top: -4px;
+                right: -4px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="top-bar">
-    <div><i class="fas fa-map-marker-alt"></i> Claro Colombia | Envíos gratis</div>
-    <div><i class="fas fa-credit-card"></i> Aceptamos Nequi / BRE-B y pago contra entrega</div>
-</div>
-<div class="main-header">
-    <div class="logo">
-        <img src="https://i.ibb.co/W4CNRJJh/pngwing-com.png" alt="Claro Colombia">
-        <div class="shipping-animation">
-            <i class="fas fa-truck"></i>
-            <span>Envío gratis a todo Colombia</span>
+<!-- Contenedor sticky que engloba top-bar y main-header -->
+<div class="sticky-header">
+    <div class="top-bar">
+        <div><i class="fas fa-map-marker-alt"></i> Claro Colombia | Envíos gratis</div>
+        <div><i class="fas fa-credit-card"></i> Aceptamos Nequi / BRE-B y pago contra entrega</div>
+    </div>
+    <div class="main-header">
+        <div class="logo">
+            <img src="https://i.ibb.co/W4CNRJJh/pngwing-com.png" alt="Claro Colombia">
+            <div class="shipping-animation">
+                <i class="fas fa-truck"></i>
+                <span>Envío gratis a todo Colombia</span>
+            </div>
+        </div>
+        <div class="search-cart">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Buscar iPhone...">
+            </div>
+        </div>
+        <!-- Carrito con estilo mejorado y animación -->
+        <div class="cart-icon-header" id="cartIcon">
+            <i class="fas fa-shopping-bag"></i>
+            <span id="cartCount" class="cart-badge">0</span>
         </div>
     </div>
-    <div class="search-cart">
-        <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Buscar iPhone..."></div>
-    </div>
 </div>
+
 <div class="hero">
     <div class="hero-badge">⚡ OFERTA MUNDIAL 2026 ⚡</div>
     <h1>iPhone 17 · 16 · 15 · 14</h1>
@@ -620,19 +709,23 @@
     <a href="mailto:claroiphone@mbox.re" style="color:#aaa;">claroiphone@mbox.re</a></p>
 </footer>
 
+<!-- Botón flotante de WhatsApp -->
+<a href="https://wa.me/573138237540" target="_blank" class="whatsapp-float" id="whatsappBtn" aria-label="Servicio al cliente por WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
 <!-- MODALES -->
 <div id="promoModal" class="modal-base"><div class="modal-card" style="text-align:center;"><span id="closePromoBtn" class="close-modal">&times;</span><img src="https://i.ibb.co/W4CNRJJh/pngwing-com.png" style="height:50px;"><div style="background:#E31837; color:white; display:inline-block; padding:5px 15px; border-radius:40px; margin:12px 0;">🔥 20% OFF + REGALO 🔥</div><h2 style="font-size:1.6rem;">Descuento exclusivo</h2><p>Paga con Nequi o BRE-B y recibe un regalo adicional</p><button id="acceptPromoBtn" class="btn-add" style="width:80%; margin: 20px auto 0;">Ver iPhones →</button></div></div>
 <div id="giftModal" class="modal-base"><div class="modal-card"><span id="closeGiftBtn" class="close-modal">&times;</span><h3 style="margin-bottom:1rem;">🎁 Elige tu regalo</h3><div id="giftOptionsContainer" class="gift-options"></div><button id="confirmGiftBtn" class="btn-add" style="margin-top:1rem;">Añadir regalo y continuar</button></div></div>
 <div id="policyModal" class="modal-base"><div class="modal-card"><span id="closePolicyBtn" class="close-modal">&times;</span><h3>Políticas de compra</h3><p>Envíos gratuitos · Garantía 1 año · Derecho de retracto 5 días · Datos protegidos Ley 1581 de 2012.</p></div></div>
 <div id="checkoutModal" class="modal-base"><div class="checkout-container"><span id="closeCheckoutBtn" class="close-modal">&times;</span><h3 style="margin-bottom:1rem; text-align:center;">Finalizar compra</h3><div class="payment-methods"><div id="nequiCard" class="payment-card selected"><img src="https://i.ibb.co/Rkzvbqc6/images-2.png" class="payment-logo"><strong>Nequi</strong></div><div id="brebCard" class="payment-card"><img src="https://i.ibb.co/JWCptNrj/images-5.jpg" class="payment-logo"><strong>BRE-B</strong></div></div><div id="nequiPanel"><div class="copy-key">📱 3202112323 <button id="copyNequiBtn" class="btn-copy-small">Copiar</button></div></div><div id="brebPanel" style="display:none;"><div class="copy-key">🔑 @3138237540 <button id="copyBrebBtn" class="btn-copy-small">Copiar</button></div></div><div style="display:flex; justify-content:center; gap:20px; margin:20px 0;"><label><input type="radio" name="payMode" value="full" checked> Pago total</label><label><input type="radio" name="payMode" value="partial"> Contra entrega (30% ahora)</label></div><div id="breakdownBox" class="payment-breakdown"></div><form id="finalOrderForm" enctype="multipart/form-data"><div class="form-field"><input type="text" name="Nombre" placeholder="Nombre completo *" required></div><div class="form-field"><input type="text" name="Cedula" placeholder="Cédula *" required></div><div class="form-field"><input type="text" name="Ciudad" placeholder="Ciudad *" required></div><div class="form-field"><input type="text" name="Direccion" placeholder="Dirección *" required></div><div class="form-field"><input type="tel" name="Telefono" placeholder="Teléfono *" required></div><div class="form-field"><textarea name="Observaciones" rows="2" placeholder="Observaciones (opcional)"></textarea></div><div class="form-field"><div id="fakeFileLabel" class="file-label"><i class="fas fa-cloud-upload-alt"></i> Adjuntar comprobante de pago *</div><input type="file" name="comprobante" id="proofFileInput" accept="image/*" style="display:none;" required></div><button type="submit" id="submitOrderFinal" class="btn-submit-form"><i class="fas fa-check-circle"></i> Confirmar pedido</button></form><div style="font-size:0.7rem; text-align:center; margin-top:1rem;">✅ Recibirás factura PDF con verificación oficial</div></div></div>
 
-<div id="cartFloating" class="cart-floating"><i class="fas fa-shopping-bag"></i><span id="floatingCartCount" class="cart-badge">0</span></div>
 <div id="cartOverlay" class="overlay"></div>
 <div id="cartDrawer" class="cart-drawer"><div class="drawer-header"><span><i class="fas fa-cart-shopping"></i> Mi carrito</span><button id="closeDrawerBtn" style="background:none; border:none; color:white; font-size:1.4rem;">&times;</button></div><div id="drawerItemsList" class="drawer-items"></div><div id="drawerTotalSection" class="drawer-total" style="display:none;"><span>Total:</span><span id="drawerTotalAmount">$0</span></div><div style="padding:1rem;"><button id="checkoutFromDrawer" class="btn-add" style="background:#1e293b;">Pagar ahora</button></div></div>
 
 <script>
     (function(){
-        // ---------- CATÁLOGO COMPLETO (iPhone 14 al 17) ----------
+        // ---------- CATÁLOGO COMPLETO ----------
         const rawProducts = [
             { name: "iPhone 17 Pro Max", originalPrice: 8299900, pantalla: "6.9″ OLED 120Hz", procesador: "A19 Pro", camara: "48MP Triple", almacenamiento: "256GB", año:2026, imagenes: ["https://i.ibb.co/4D1z5sg/descarga-1.jpg","https://i.ibb.co/5XQXBRYN/descarga.jpg"] },
             { name: "iPhone 17 Pro", originalPrice: 6999900, pantalla: "6.3″ OLED 120Hz", procesador: "A19 Pro", camara: "48MP Triple", almacenamiento: "256GB", año:2026, imagenes: ["https://http2.mlstatic.com/D_Q_NP_760114-MCO107806644505_022026-B.webp","https://http2.mlstatic.com/D_Q_NP_947861-MCO107806644507_022026-B.webp"] },
@@ -664,7 +757,7 @@
         function saveCart() { localStorage.setItem('claro_cart', JSON.stringify(cart)); updateCartUI(); }
         function updateCartUI() { 
             let totalItems = cart.reduce((a,i)=> a + i.quantity,0); 
-            document.getElementById('floatingCartCount').innerText = totalItems;
+            document.getElementById('cartCount').innerText = totalItems;
             renderDrawer(); 
         }
         function hasGift() { return cart.some(i => i.isGift === true); }
@@ -722,9 +815,9 @@
         document.getElementById('openPolicyBtn').onclick=()=>document.getElementById('policyModal').classList.add('active');
         document.getElementById('closePolicyBtn').onclick=()=>document.getElementById('policyModal').classList.remove('active');
 
-        // DRAWER
+        // DRAWER - ahora controlado por el ícono del header
         let drawer=document.getElementById('cartDrawer'), overlay=document.getElementById('cartOverlay');
-        document.getElementById('cartFloating').addEventListener('click',()=>{drawer.classList.add('open'); overlay.classList.add('active');});
+        document.getElementById('cartIcon').addEventListener('click',()=>{drawer.classList.add('open'); overlay.classList.add('active');});
         document.getElementById('closeDrawerBtn').addEventListener('click',()=>{drawer.classList.remove('open'); overlay.classList.remove('active');});
         overlay.addEventListener('click',()=>{drawer.classList.remove('open'); overlay.classList.remove('active');});
 
